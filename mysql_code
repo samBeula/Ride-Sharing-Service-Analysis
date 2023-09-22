@@ -1,0 +1,210 @@
+[training@10 ~]$ mysql --user=training --password=training
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 5.1.66 Source distribution
+
+Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+mysql> 
+mysql> 
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ecommercedata      |
+| hue                |
+| metastore          |
+| movielens          |
+| mysql              |
+| rideanalysis       |
+| test               |
+| training           |
++--------------------+
+9 rows in set (0.13 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> create database bikerideanalysis;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| bikerideanalysis   |
+| ecommercedata      |
+| hue                |
+| metastore          |
+| movielens          |
+| mysql              |
+| rideanalysis       |
+| test               |
+| training           |
++--------------------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> use bikerideanalysis;
+Database changed
+mysql> 
+mysql> 
+mysql> 
+mysql> create table customer_data(customerID int,cname varchar(20),cage int,cgender varchar(7),location varchar(20));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> load data infile '/home/training/Desktop/customer_data_cap.csv' into table customer_data fields terminated by ',' lines terminated by '\n' ignore 1 lines;
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> 
+mysql> create table ride_data(rideID int,driverID int,customerID int,startTime TIMESTAMP,endTime TIMESTAMP,pickupLocation varchar(20),dropoffLocation varchar(20),distance_km int,fare int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> load data infile '/home/training/Desktop/ride_data.csv' into table ride_data fields terminated by ',' lines terminated by '\n' ignore 1 lines;
+Query OK, 10 rows affected, 20 warnings (0.00 sec)
+Records: 10  Deleted: 0  Skipped: 0  Warnings: 20
+
+mysql> 
+mysql> 
+mysql> 
+mysql> create table driver_data(driverID int,dname varchar(20),dage int,dgender varchar(7),yearsOfExperience int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> load data infile '/home/training/Desktop/driver_data.csv' into table driver_data fields terminated by ',' lines terminated by '\n' ignore 1 lines;
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> 
+mysql> select * from ride_data;
++--------+----------+------------+---------------------+---------------------+----------------+-----------------+-------------+------+
+| rideID | driverID | customerID | startTime           | endTime             | pickupLocation | dropoffLocation | distance_km | fare |
++--------+----------+------------+---------------------+---------------------+----------------+-----------------+-------------+------+
+|      1 |       25 |         12 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Parade Ground  | Dilsuknagar     |          25 |  300 |
+|      2 |       23 |         19 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | S. R. Nagar    | Musheerabad     |          20 |  240 |
+|      3 |       28 |         11 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Ameerpet       | Chikkadapally   |          15 |  180 |
+|      4 |       26 |         13 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Narayanaguda   | Panjagutta      |          14 |  168 |
+|      5 |       27 |         18 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Begumpet       | Kukatpally      |          16 |  192 |
+|      6 |       22 |        110 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Rasoolpura     | NGRI            |          12 |  144 |
+|      7 |       25 |         14 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Malakpet       | L B Nagar       |          11 |  132 |
+|      8 |       27 |         17 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Yusufguda      | Lakdi-ka-pul    |          10 |  120 |
+|      9 |       29 |         16 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Khairatabad    | Peddama Gudi    |          13 |  156 |
+|     10 |       25 |         15 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | Nampally       | Gandhi Hospital |          13 |  156 |
++--------+----------+------------+---------------------+---------------------+----------------+-----------------+-------------+------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> select * from customer_data;
++------------+---------+------+---------+----------------+
+| customerID | cname   | cage | cgender | location       |
++------------+---------+------+---------+----------------+
+      |   11 | raju    |   18 | M       | Ameerpet
+ |        12 | rani    |   35 | F       | Parade Ground
+  |       13 | siri    |   49 | M       | Narayanaguda
+      |   14 | hari    |   52 | F       | Malakpet
+      |   15 | madhavi |   22 | F       | Nampally
+   |      16 | roopa   |   25 | F       | Khairatabad
+     |    17 | neha    |   31 | F       | Yusufguda
+     |    18 | henry   |   63 | M       | Begumpeta
+   |      19 | guen    |   26 | F       | S. R. Nagar
+   |     110 | harry   |   87 | M       | Rasuoolpura
++------------+---------+------+---------+----------------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> select * from driver_data;
++----------+----------+------+---------+-------------------+
+| driverID | dname    | dage | dgender | yearsOfExperience |
++----------+----------+------+---------+-------------------+
+|       21 | raghu    |   34 | M       |                11 |
+|       22 | sagar    |   25 | M       |                 6 |
+|       23 | kiran    |   35 | M       |                 9 |
+|       24 | pentayya |   32 | M       |                 9 |
+|       25 | kotayya  |   31 | M       |                 8 |
+|       26 | appparao |   27 | M       |                 5 |
+|       27 | babu     |   30 | M       |                 7 |
+|       28 | lokesh   |   29 | M       |                 6 |
+|       29 | ramesh   |   33 | M       |                10 |
+|      210 | suresh   |   26 | M       |                 4 |
++----------+----------+------+---------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> drop table ride_data;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> create table driver_data(driverID int,dname varchar(20),dage int,dgender varchar(7),yearsOfExperience int);
+ERROR 1050 (42S01): Table 'driver_data' already exists
+mysql> 
+mysql> 
+mysql> 
+mysql> create table ride_data(rideID int,driverID int,customerID int,startTime TIMESTAMP,endTime TIMESTAMP,pickupLocation varchar(20),dropoffLocation varchar(20),distance_km int,fare int);
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> load data infile '/home/training/Desktop/ride_data.csv' into table ride_data fields terminated by ',' lines terminated by '\n' ignore 1 lines;
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> 
+mysql> select * from ride_data;
++--------+----------+------------+---------------------+---------------------+----------------+-----------------+-------------+------+
+| rideID | driverID | customerID | startTime           | endTime             | pickupLocation | dropoffLocation | distance_km | fare |
++--------+----------+------------+---------------------+---------------------+----------------+-----------------+-------------+------+
+|      1 |       25 |         12 | 2023-04-04 07:30:00 | 2023-04-04 08:40:00 | Parade Ground  | Dilsuknagar     |          25 |  300 |
+|      2 |       23 |         19 | 2023-04-04 07:49:00 | 2023-04-04 09:00:00 | S. R. Nagar    | Musheerabad     |          20 |  240 |
+|      3 |       28 |         11 | 2023-04-04 08:02:00 | 2023-04-04 09:13:00 | Ameerpet       | Chikkadapally   |          15 |  180 |
+|      4 |       26 |         13 | 2023-04-04 08:27:00 | 2023-04-04 09:33:00 | Narayanaguda   | Panjagutta      |          14 |  168 |
+|      5 |       27 |         18 | 2023-04-04 08:58:00 | 2023-04-04 10:02:00 | Begumpet       | Kukatpally      |          16 |  192 |
+|      6 |       22 |        110 | 2023-04-04 09:01:00 | 2023-04-04 09:34:00 | Rasoolpura     | NGRI            |          12 |  144 |
+|      7 |       25 |         14 | 2023-04-04 09:17:00 | 2023-04-03 09:53:00 | Malakpet       | L B Nagar       |          11 |  132 |
+|      8 |       27 |         17 | 2023-04-04 09:45:00 | 2023-04-04 10:39:00 | Yusufguda      | Lakdi-ka-pul    |          10 |  120 |
+|      9 |       29 |         16 | 2023-04-04 10:30:00 | 2023-04-04 11:12:00 | Khairatabad    | Peddama Gudi    |          13 |  156 |
+|     10 |       25 |         15 | 2023-04-04 10:45:00 | 2023-04-04 11:30:00 | Nampally       | Gandhi Hospital |          13 |  156 |
++--------+----------+------------+---------------------+---------------------+----------------+-----------------+-------------+------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
